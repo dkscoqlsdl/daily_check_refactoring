@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import {useMediaQuery} from 'react-responsive';
 import './App.css';
+
 
 // 1. 컴포넌트 불러오기
 import MainScreen from './components/MainScreen';
@@ -20,6 +22,20 @@ import {
   getStressText, 
   analyzeCondition 
 } from './utils/helpers';
+
+export const Mobile = ({ children }) => {
+  const isMobile = useMediaQuery({
+    query: "(max-width:768px)"
+  });
+  return <>{isMobile && children}</>
+}
+
+export const PC = ({ children }) => {
+  const isPc = useMediaQuery({
+    query: "(min-width:769px)"
+  });
+  return <>{isPc && children}</>
+}
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState('main');
@@ -49,7 +65,6 @@ function App() {
   const handleSelect = (questionId, value) => setAnswers({ ...answers, [questionId]: value });
   
   const handleSubmit = () => {
-      // (점수 계산 로직은 간단해서 여기에 둬도 되고, utils로 빼도 됨)
       const totalScore = Object.values(answers).reduce((sum, score) => sum + score, 0);
       const averageScore = (totalScore / 8).toFixed(1); // 문항수 8개
       let level = '', message = '';
@@ -88,7 +103,6 @@ function App() {
     if (selectedDates.length === 0) { alert("날짜를 최소 하루 이상 선택해주세요."); return; }
     const sortedDates = [...selectedDates].sort((a, b) => new Date(a) - new Date(b));
     setSelectedDates(sortedDates);
-    // (간단 주기에측 로직 - 필요시 utils로 이동 가능)
     const startDates = [new Date(sortedDates[0])];
     for (let i = 1; i < sortedDates.length; i++) {
         const prev = new Date(sortedDates[i - 1]);
@@ -152,7 +166,8 @@ function App() {
     else { const newRecord = { id: Date.now(), type: 'supplement', value: '영양제 먹기', label: '영양제', dateKey }; setDailyRecords([...dailyRecords, newRecord]); }
   };
 
-  return (
+  // 화면 렌더링
+  const appContent = (
     <div className="app-container">
       {currentScreen === 'main' && <MainScreen onStart={handleStart} />}
       
@@ -161,7 +176,7 @@ function App() {
           answers={answers} 
           onSelect={handleSelect} 
           onSubmit={handleSubmit} 
-          isAllAnswered={Object.keys(answers).length === 8} // 문항수 하드코딩 대신 Object keys check
+          isAllAnswered={Object.keys(answers).length === 8}
         />
       )}
       
@@ -232,6 +247,103 @@ function App() {
       />
     </div>
   );
+
+  return (
+    <>
+      {/* 모바일 환경일 때 */}
+      <Mobile>
+        {appContent}
+      </Mobile>
+
+      {/* PC 환경일 때 */}
+      <PC>
+        {/* PC에서는 앱 화면을 중앙에 정렬하거나 배경을 깔아주는 스타일을 추가할 수 있습니다 */}
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', backgroundColor: '#f0f0f0' }}>
+           {appContent}
+        </div>
+      </PC>
+    </>
+  );
+  // return (
+  //   <div className="app-container">
+  //     {currentScreen === 'main' && <MainScreen onStart={handleStart} />}
+      
+  //     {currentScreen === 'survey' && (
+  //       <SurveyScreen 
+  //         answers={answers} 
+  //         onSelect={handleSelect} 
+  //         onSubmit={handleSubmit} 
+  //         isAllAnswered={Object.keys(answers).length === 8} // 문항수 하드코딩 대신 Object keys check
+  //       />
+  //     )}
+      
+  //     {currentScreen === 'result' && resultData && (
+  //       <ResultScreen resultData={resultData} onNext={() => setCurrentScreen('calendar')} />
+  //     )}
+      
+  //     {currentScreen === 'calendar' && (
+  //       <CalendarScreen 
+  //         currentDate={currentDate}
+  //         selectedDates={selectedDates}
+  //         allData={allData}
+  //         cycleData={cycleData}
+  //         onPrevMonth={handlePrevMonth}
+  //         onNextMonth={handleNextMonth}
+  //         onDateClick={handleDateClick}
+  //         onComplete={handleCalendarComplete}
+  //         onBack={() => setCurrentScreen('daily')}
+  //       />
+  //     )}
+      
+  //     {currentScreen === 'daily' && (
+  //       <DailyReportScreen 
+  //         cycleData={cycleData}
+  //         dailyRecords={dailyRecords}
+  //         recordDate={recordDate}
+  //         onPrevDay={handlePrevDay}
+  //         onNextDay={handleNextDay}
+  //         onToggleSupplement={toggleSupplement}
+  //         onAddRecord={openAddModal}
+  //         onNavigate={setCurrentScreen}
+  //       />
+  //     )}
+      
+  //     {currentScreen === 'daily_analysis' && (
+  //       <DailyAnalysisScreen 
+  //         cycleData={cycleData}
+  //         analysisResult={analysisResult}
+  //         onBack={() => setCurrentScreen('daily')}
+  //       />
+  //     )}
+      
+  //     {currentScreen === 'monthly' && (
+  //       <MonthlyReportScreen 
+  //         allData={allData} 
+  //         onNavigate={setCurrentScreen} 
+  //       />
+  //     )}
+
+  //     <RecordModal 
+  //       showModal={showModal}
+  //       onClose={closeAddModal}
+  //       modalStep={modalStep}
+  //       setModalStep={setModalStep}
+  //       tempInput={tempInput}
+  //       setTempInput={setTempInput}
+  //       tempSelection={tempSelection}
+  //       setTempSelection={setTempSelection}
+  //       conditionData={conditionData}
+  //       setConditionData={setConditionData}
+  //       handleWeightSubmit={handleWeightSubmit}
+  //       handleAddRecord={handleAddRecord}
+  //       handleSleepSubmit={handleSleepSubmit}
+  //       handleStressSingleSubmit={handleStressSingleSubmit}
+  //       handleConditionSubmit={handleConditionSubmit}
+  //       viewData={viewData}
+  //       viewDate={viewDate}
+  //     />
+  //   </div>
+  // );
 }
 
 export default App;
