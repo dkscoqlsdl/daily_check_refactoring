@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {useMediaQuery} from 'react-responsive';
+// import {useMediaQuery} from 'react-responsive';
 import './App.css';
 
 
@@ -23,19 +23,19 @@ import {
   analyzeCondition 
 } from './utils/helpers';
 
-export const Mobile = ({ children }) => {
-  const isMobile = useMediaQuery({
-    query: "(max-width:768px)"
-  });
-  return <>{isMobile && children}</>
-}
+// export const Mobile = ({ children }) => {
+//   const isMobile = useMediaQuery({
+//     query: "(max-width:768px)"
+//   });
+//   return <>{isMobile && children}</>
+// }
 
-export const PC = ({ children }) => {
-  const isPc = useMediaQuery({
-    query: "(min-width:769px)"
-  });
-  return <>{isPc && children}</>
-}
+// export const PC = ({ children }) => {
+//   const isPc = useMediaQuery({
+//     query: "(min-width:769px)"
+//   });
+//   return <>{isPc && children}</>
+// }
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState('main');
@@ -248,102 +248,102 @@ function App() {
     </div>
   );
 
-  return (
-    <>
-      {/* 모바일 환경일 때 */}
-      <Mobile>
-        {appContent}
-      </Mobile>
-
-      {/* PC 환경일 때 */}
-      <PC>
-        {/* PC에서는 앱 화면을 중앙에 정렬하거나 배경을 깔아주는 스타일을 추가할 수 있습니다 */}
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', backgroundColor: '#f0f0f0' }}>
-           {appContent}
-        </div>
-      </PC>
-    </>
-  );
   // return (
-  //   <div className="app-container">
-  //     {currentScreen === 'main' && <MainScreen onStart={handleStart} />}
-      
-  //     {currentScreen === 'survey' && (
-  //       <SurveyScreen 
-  //         answers={answers} 
-  //         onSelect={handleSelect} 
-  //         onSubmit={handleSubmit} 
-  //         isAllAnswered={Object.keys(answers).length === 8} // 문항수 하드코딩 대신 Object keys check
-  //       />
-  //     )}
-      
-  //     {currentScreen === 'result' && resultData && (
-  //       <ResultScreen resultData={resultData} onNext={() => setCurrentScreen('calendar')} />
-  //     )}
-      
-  //     {currentScreen === 'calendar' && (
-  //       <CalendarScreen 
-  //         currentDate={currentDate}
-  //         selectedDates={selectedDates}
-  //         allData={allData}
-  //         cycleData={cycleData}
-  //         onPrevMonth={handlePrevMonth}
-  //         onNextMonth={handleNextMonth}
-  //         onDateClick={handleDateClick}
-  //         onComplete={handleCalendarComplete}
-  //         onBack={() => setCurrentScreen('daily')}
-  //       />
-  //     )}
-      
-  //     {currentScreen === 'daily' && (
-  //       <DailyReportScreen 
-  //         cycleData={cycleData}
-  //         dailyRecords={dailyRecords}
-  //         recordDate={recordDate}
-  //         onPrevDay={handlePrevDay}
-  //         onNextDay={handleNextDay}
-  //         onToggleSupplement={toggleSupplement}
-  //         onAddRecord={openAddModal}
-  //         onNavigate={setCurrentScreen}
-  //       />
-  //     )}
-      
-  //     {currentScreen === 'daily_analysis' && (
-  //       <DailyAnalysisScreen 
-  //         cycleData={cycleData}
-  //         analysisResult={analysisResult}
-  //         onBack={() => setCurrentScreen('daily')}
-  //       />
-  //     )}
-      
-  //     {currentScreen === 'monthly' && (
-  //       <MonthlyReportScreen 
-  //         allData={allData} 
-  //         onNavigate={setCurrentScreen} 
-  //       />
-  //     )}
+  //   <>
+  //     {/* 모바일 환경일 때 */}
+  //     <Mobile>
+  //       {appContent}
+  //     </Mobile>
 
-  //     <RecordModal 
-  //       showModal={showModal}
-  //       onClose={closeAddModal}
-  //       modalStep={modalStep}
-  //       setModalStep={setModalStep}
-  //       tempInput={tempInput}
-  //       setTempInput={setTempInput}
-  //       tempSelection={tempSelection}
-  //       setTempSelection={setTempSelection}
-  //       conditionData={conditionData}
-  //       setConditionData={setConditionData}
-  //       handleWeightSubmit={handleWeightSubmit}
-  //       handleAddRecord={handleAddRecord}
-  //       handleSleepSubmit={handleSleepSubmit}
-  //       handleStressSingleSubmit={handleStressSingleSubmit}
-  //       handleConditionSubmit={handleConditionSubmit}
-  //       viewData={viewData}
-  //       viewDate={viewDate}
-  //     />
-  //   </div>
+  //     {/* PC 환경일 때 */}
+  //     <PC>
+  //       {/* PC에서는 앱 화면을 중앙에 정렬하거나 배경을 깔아주는 스타일을 추가할 수 있습니다 */}
+  //       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', backgroundColor: '#f0f0f0' }}>
+  //          {appContent}
+  //       </div>
+  //     </PC>
+  //   </>
   // );
+  return (
+    <div className="app-container">
+      {currentScreen === 'main' && <MainScreen onStart={handleStart} />}
+      
+      {currentScreen === 'survey' && (
+        <SurveyScreen 
+          answers={answers} 
+          onSelect={handleSelect} 
+          onSubmit={handleSubmit} 
+          isAllAnswered={Object.keys(answers).length === 8} // 문항수 하드코딩 대신 Object keys check
+        />
+      )}
+      
+      {currentScreen === 'result' && resultData && (
+        <ResultScreen resultData={resultData} onNext={() => setCurrentScreen('calendar')} />
+      )}
+      
+      {currentScreen === 'calendar' && (
+        <CalendarScreen 
+          currentDate={currentDate}
+          selectedDates={selectedDates}
+          allData={allData}
+          cycleData={cycleData}
+          onPrevMonth={handlePrevMonth}
+          onNextMonth={handleNextMonth}
+          onDateClick={handleDateClick}
+          onComplete={handleCalendarComplete}
+          onBack={() => setCurrentScreen('daily')}
+        />
+      )}
+      
+      {currentScreen === 'daily' && (
+        <DailyReportScreen 
+          cycleData={cycleData}
+          dailyRecords={dailyRecords}
+          recordDate={recordDate}
+          onPrevDay={handlePrevDay}
+          onNextDay={handleNextDay}
+          onToggleSupplement={toggleSupplement}
+          onAddRecord={openAddModal}
+          onNavigate={setCurrentScreen}
+        />
+      )}
+      
+      {currentScreen === 'daily_analysis' && (
+        <DailyAnalysisScreen 
+          cycleData={cycleData}
+          analysisResult={analysisResult}
+          onBack={() => setCurrentScreen('daily')}
+        />
+      )}
+      
+      {currentScreen === 'monthly' && (
+        <MonthlyReportScreen 
+          allData={allData} 
+          onNavigate={setCurrentScreen} 
+        />
+      )}
+
+      <RecordModal 
+        showModal={showModal}
+        onClose={closeAddModal}
+        modalStep={modalStep}
+        setModalStep={setModalStep}
+        tempInput={tempInput}
+        setTempInput={setTempInput}
+        tempSelection={tempSelection}
+        setTempSelection={setTempSelection}
+        conditionData={conditionData}
+        setConditionData={setConditionData}
+        handleWeightSubmit={handleWeightSubmit}
+        handleAddRecord={handleAddRecord}
+        handleSleepSubmit={handleSleepSubmit}
+        handleStressSingleSubmit={handleStressSingleSubmit}
+        handleConditionSubmit={handleConditionSubmit}
+        viewData={viewData}
+        viewDate={viewDate}
+      />
+    </div>
+  );
 }
 
 export default App;
